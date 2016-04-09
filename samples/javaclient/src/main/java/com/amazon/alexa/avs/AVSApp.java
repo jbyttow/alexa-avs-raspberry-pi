@@ -120,7 +120,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     }
 
     public void onSuccessfulTrigger() {
-        transcriber.stopRecognition();
+        this.transcriber.stopRecognition();
         visualizer.setIndeterminate(false);
 
         RequestListener requestListener = new RequestListener() {
