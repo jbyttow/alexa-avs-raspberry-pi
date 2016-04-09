@@ -62,7 +62,7 @@ public class Transcriber {
 
     public void stopRecognition() {
         this.transcriberEnabled = false;
-        System.out.println("STOPPING RECOGNITION");
+        System.out.println("STOPPING RECOGNITION IN FUNCTION");
         recognizer.stopRecognition();
     }
 }
