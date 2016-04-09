@@ -14,6 +14,8 @@ import com.amazon.alexa.avs.auth.companionservice.RegCodeDisplayHandler;
 import com.amazon.alexa.avs.config.DeviceConfig;
 import com.amazon.alexa.avs.config.DeviceConfigUtils;
 import com.amazon.alexa.avs.http.AVSClientFactory;
+import com.amazon.alexa.avs.speech.Transcriber;
+import com.amazon.alexa.avs.speech.TranscriberListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +41,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 
+import edu.cmu.sphinx.api.Configuration;
+import edu.cmu.sphinx.api.LiveSpeechRecognizer;
+
 @SuppressWarnings("serial")
 public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMSListener,
-        RegCodeDisplayHandler, AccessTokenListener {
+        RegCodeDisplayHandler, AccessTokenListener, TranscriberListener {
 
     private static final Logger log = LoggerFactory.getLogger(AVSApp.class);
 
@@ -58,6 +63,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     private JButton playPauseButton;
     private JTextField tokenTextField;
     private JProgressBar visualizer;
+    private Transcriber transcriber;
     private Thread autoEndpoint = null; // used to auto-endpoint while listening
     private final DeviceConfig deviceConfig;
     // minimum audio level threshold under which is considered silence
@@ -104,7 +110,40 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 200);
         setVisible(true);
+        System.out.println("SETTING VISIBLE");
+
         controller.startHandlingDirectives();
+
+        final TranscriberListener transcriberListener = this;
+        transcriber = new Transcriber(transcriberListener);
+        transcriber.startRecognition();
+    }
+
+    public void onSuccessfulTrigger() {
+        transcriber.stopRecognition();
+        visualizer.setIndeterminate(false);
+
+        RequestListener requestListener = new RequestListener() {
+            @Override
+            public void onRequestSuccess() {
+                System.out.println("request success");
+                finishProcessing();
+            }
+
+            @Override
+            public void onRequestError(Throwable e) {
+                log.error("An error occured creating speech request", e);
+                JOptionPane.showMessageDialog(getContentPane(), e.getMessage(), "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                System.out.println("request error");
+                //actionButton.doClick();
+                finishProcessing();
+            }
+        };
+
+        System.out.println("w00t");
+        final RecordingRMSListener rmsListener = this;
+        this.controller.startRecording(rmsListener, requestListener);
     }
 
     private String getAppVersion() {
@@ -196,12 +235,11 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                             log.error("An error occured creating speech request", e);
                             JOptionPane.showMessageDialog(getContentPane(), e.getMessage(), "Error",
                                     JOptionPane.ERROR_MESSAGE);
-                            actionButton.doClick();
                             finishProcessing();
                         }
                     };
 
-                    controller.startRecording(rmsListener, requestListener);
+                    //controller.startRecording(rmsListener, requestListener);
                 } else { // else we must already be in listening
                     actionButton.setText(PROCESSING_LABEL); // go into processing mode
                     actionButton.setEnabled(false);
@@ -281,9 +319,16 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     public void finishProcessing() {
         actionButton.setText(START_LABEL);
         actionButton.setEnabled(true);
-        visualizer.setIndeterminate(false);
+        visualizer.setIndeterminate(true);
         controller.processingFinished();
 
+        try {
+            transcriber.startRecognition();
+        } catch (Exception e) {
+            System.out.println("EXCEPTION");
+            return;
+        }
+            
     }
 
     @Override
@@ -302,8 +347,8 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                     public void run() {
                         try {
                             Thread.sleep(ENDPOINT_SECONDS * 1000);
-                            actionButton.doClick(); // hit stop if we get through the autoendpoint
-                                                    // time
+                            System.out.println("THRESHOLD OVER");
+                            finishProcessing();
                         } catch (InterruptedException e) {
                             return;
                         }
@@ -328,6 +373,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                     } catch (Exception e) {
                     }
                 }
+                System.out.println("DO CLICK SPEECH DIRECTIVE");
                 actionButton.doClick();
             }
         };

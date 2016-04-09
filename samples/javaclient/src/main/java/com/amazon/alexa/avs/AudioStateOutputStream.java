@@ -53,6 +53,7 @@ public class AudioStateOutputStream extends PipedOutputStream {
     }
 
     private void notifyRecordingCompleted() {
+        System.out.println("recording completed");
         if (stateListener != null) {
             stateListener.recordingCompleted();
         }

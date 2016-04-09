@@ -9,6 +9,15 @@
   <name>Alexa Voice Service Sample Java Client</name>
   <url>https://developer.amazon.com/appsandservices/solutions/alexa/alexa-voice-service</url>
 
+  <repositories>
+    <repository>
+      <id>snapshots-repo</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
+    </repository>
+  </repositories>
+
   <properties>
     <jetty.version>9.3.7.v20160115</jetty.version>
     <!-- The latest version of alpn-boot that supports JDK 1.8.0_71 through 1.8.0_74 -->
@@ -145,6 +154,16 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
     </dependency>
+    <dependency>
+      <groupId>edu.cmu.sphinx</groupId>
+      <artifactId>sphinx4-core</artifactId>
+      <version>5prealpha-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.cmu.sphinx</groupId>
+      <artifactId>sphinx4-data</artifactId>
+      <version>5prealpha-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
     <resources>
@@ -161,6 +180,12 @@
         <filtering>false</filtering>
         <includes>
           <include>**/*.mp3</include>
+          <include>**/*.wav</include>
+          <include>**/*.lm.bin</include>
+          <include>**/*.en-us</include>
+          <include>**/*.dict</include>
+          <include>**/en-us/**</include>
+          <include>**/dialog/**</include>
         </includes>
       </resource>
     </resources>

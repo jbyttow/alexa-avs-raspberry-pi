@@ -109,6 +109,7 @@ public class DeviceConfig {
                     + COMPANION_APP + "\" or \"" + COMPANION_SERVICE + "\".");
         }
 
+        //JB: COMMENT HERE TO GET IT TO WORK IN DEV
         if (method == ProvisioningMethod.COMPANION_APP
                 && (companionAppInfo == null || !companionAppInfo.isValid())) {
             throw new MalformedConfigException("Your " + PROVISIONING_METHOD + " is set to \""
