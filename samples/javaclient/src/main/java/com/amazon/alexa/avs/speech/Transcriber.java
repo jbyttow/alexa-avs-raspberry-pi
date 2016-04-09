@@ -46,11 +46,11 @@ public class Transcriber {
 
     public void startRecognition() throws Exception {
         this.transcriberEnabled = true;
-        recognizer.startRecognition(true);
+        recognizer.startRecognition(this.transcriberEnabled);
         System.out.println("start recognition");
 
         // this needs to become it's own thread, it's blocking rest of init
-        while (transcriberEnabled) {
+        while (this.transcriberEnabled) {
             String utterance = recognizer.getResult().getHypothesis();
             System.out.println(utterance);
             if (utterance.equals("robot")) {
