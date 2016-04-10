@@ -60,6 +60,6 @@ public class Transcriber {
     public void stopRecognition() {
         System.out.println("STOPPING RECOGNITION IN FUNCTION");
         this.transcriberEnabled = false;
-        recognizer.stopRecognition(true);
+        recognizer.stopRecognition();
     }
 }
