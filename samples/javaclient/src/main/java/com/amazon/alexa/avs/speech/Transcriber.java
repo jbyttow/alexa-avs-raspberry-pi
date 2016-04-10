@@ -39,8 +39,6 @@ public class Transcriber {
         configuration.setUseGrammar(true);
         configuration.setGrammarName("start");
 
-        System.out.println(configuration);
-
         recognizer = new LiveSpeechRecognizer(configuration);
     }
 
