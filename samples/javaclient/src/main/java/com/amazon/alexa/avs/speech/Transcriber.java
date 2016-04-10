@@ -45,10 +45,9 @@ public class Transcriber {
     }
 
     public void startRecognition() throws Exception {
-        this.transcriberEnabled = true;
-        recognizer.startRecognition(this.transcriberEnabled);
         System.out.println("start recognition");
-
+        recognizer.startRecognition(true);
+    
         // this needs to become it's own thread, it's blocking rest of init
         while (this.transcriberEnabled) {
             String utterance = recognizer.getResult().getHypothesis();
@@ -61,8 +60,8 @@ public class Transcriber {
     }
 
     public void stopRecognition() {
-        this.transcriberEnabled = false;
         System.out.println("STOPPING RECOGNITION IN FUNCTION");
-        recognizer.stopRecognition();
+        this.transcriberEnabled = false;
+        recognizer.stopRecognition(true);
     }
 }
