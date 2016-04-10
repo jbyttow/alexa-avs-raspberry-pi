@@ -17,7 +17,7 @@ public class Transcriber {
     LiveSpeechRecognizer recognizer;
     private final ClassLoader resLoader;
     private TranscriberListener transcriberListener;
-    private boolean transcriberEnabled = false;
+    private boolean transcriberEnabled = true;
 
     private static final String ACOUSTIC_MODEL = "res/en-us/";
     private static final String DICTIONARY_PATH = "res/cmudict-en-us.dict";
@@ -44,9 +44,10 @@ public class Transcriber {
 
     public void startRecognition() throws Exception {
         System.out.println("start recognition");
+        this.transcriberEnabled = true;
         recognizer.startRecognition(true);
     
-        // this needs to become it's own thread, it's blocking rest of init
+        // this needs to become it's own thread
         while (this.transcriberEnabled) {
             String utterance = recognizer.getResult().getHypothesis();
             System.out.println(utterance);

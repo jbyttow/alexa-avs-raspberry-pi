@@ -18,6 +18,8 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
+import com.amazon.alexa.avs.AVSApp;
+
 /**
  * Container that encapsulates all the information that exists in the config file.
  */
@@ -109,17 +111,19 @@ public class DeviceConfig {
                     + COMPANION_APP + "\" or \"" + COMPANION_SERVICE + "\".");
         }
 
-        //JB: COMMENT HERE TO GET IT TO WORK IN DEV
-        if (method == ProvisioningMethod.COMPANION_APP
-                && (companionAppInfo == null || !companionAppInfo.isValid())) {
-            throw new MalformedConfigException("Your " + PROVISIONING_METHOD + " is set to \""
-                    + COMPANION_APP + "\" but you do not have a valid \"" + COMPANION_APP
-                    + "\" section in your config file.");
-        } else if (method == ProvisioningMethod.COMPANION_SERVICE
-                && (companionServiceInfo == null || !companionServiceInfo.isValid())) {
-            throw new MalformedConfigException("Your " + PROVISIONING_METHOD + " is set to \""
-                    + COMPANION_SERVICE + "\" but you do not have a valid \"" + COMPANION_SERVICE
-                    + "\" section in your config file.");
+        //JB dirty hack, paramterize these settings
+        if (!AVSApp.DEBUG_MODE) {
+            if (method == ProvisioningMethod.COMPANION_APP
+                    && (companionAppInfo == null || !companionAppInfo.isValid())) {
+                throw new MalformedConfigException("Your " + PROVISIONING_METHOD + " is set to \""
+                        + COMPANION_APP + "\" but you do not have a valid \"" + COMPANION_APP
+                        + "\" section in your config file.");
+            } else if (method == ProvisioningMethod.COMPANION_SERVICE
+                    && (companionServiceInfo == null || !companionServiceInfo.isValid())) {
+                throw new MalformedConfigException("Your " + PROVISIONING_METHOD + " is set to \""
+                        + COMPANION_SERVICE + "\" but you do not have a valid \"" + COMPANION_SERVICE
+                        + "\" section in your config file.");
+            }
         }
 
         this.provisioningMethod = method;

@@ -50,6 +50,9 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
 
     private static final Logger log = LoggerFactory.getLogger(AVSApp.class);
 
+    //JB dirty hack, paramterize these settings
+    public static boolean DEBUG_MODE = false;
+
     private static final String APP_TITLE = "Alexa Voice Service";
     private static final String START_LABEL = "Start Listening";
     private static final String STOP_LABEL = "Stop Listening";
@@ -94,10 +97,13 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         controller = new AVSController(this, new AVSAudioPlayerFactory(), new AlertManagerFactory(),
                 getAVSClientFactory(deviceConfig), DialogRequestIdAuthority.getInstance());
 
-        authSetup = new AuthSetup(config, this);
-        authSetup.addAccessTokenListener(this);
-        authSetup.addAccessTokenListener(controller);
-        authSetup.startProvisioningThread();
+        //JB dirty hack, paramterize these settings
+        if (!DEBUG_MODE) {
+            authSetup = new AuthSetup(config, this);
+            authSetup.addAccessTokenListener(this);
+            authSetup.addAccessTokenListener(controller);
+            authSetup.startProvisioningThread();
+        }
 
         addDeviceField();
         addTokenField();
@@ -110,7 +116,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(400, 200);
         setVisible(true);
-        System.out.println("SETTING VISIBLE");
 
         controller.startHandlingDirectives();
 
@@ -120,9 +125,9 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     }
 
     public void onSuccessfulTrigger() {
-        System.out.println("CALLING FUNCTION");
+        System.out.println("stopping recognition");
         this.transcriber.stopRecognition();
-        visualizer.setIndeterminate(false);
+        //visualizer.setIndeterminate(false);
 
         RequestListener requestListener = new RequestListener() {
             @Override
@@ -318,6 +323,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     }
 
     public void finishProcessing() {
+        System.out.println("finished processing");
         actionButton.setText(START_LABEL);
         actionButton.setEnabled(true);
         visualizer.setIndeterminate(true);
@@ -359,6 +365,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
             }
         }
 
+        System.out.println(rms);
         visualizer.setValue(rms); // update the visualizer
     }
 
