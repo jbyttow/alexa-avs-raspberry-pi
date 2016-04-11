@@ -9,7 +9,10 @@ import edu.cmu.sphinx.api.Configuration;
 import edu.cmu.sphinx.api.SpeechResult;
 import edu.cmu.sphinx.api.LiveSpeechRecognizer;
 
-import com.amazon.alexa.avs.speech.TranscriberListener;
+import javax.sound.sampled.TargetDataLine;
+
+import com.amazon.alexa.avs.AVSController;
+import com.amazon.alexa.avs.MicrophoneLineFactory;
 
 public class Transcriber {
 
@@ -45,7 +48,25 @@ public class Transcriber {
     public void startRecognition() throws Exception {
         System.out.println("start recognition");
         this.transcriberEnabled = true;
+
+        MicrophoneLineFactory microphoneLineFactory = new MicrophoneLineFactory();
+        
+        /*
+        TargetDataLine microphoneLine = microphoneLineFactory.getMicrophone();
+        microphoneLine.open(AVSController.AUDIO_TYPE.getAudioFormat());
+        System.out.println("LINE STATUS");
+        System.out.println(microphoneLine.isRunning());
+        
+        System.out.println(microphoneLine.isRunning());
+        microphoneLine.close();
+
+        TargetDataLine microphoneLine2 = microphoneLineFactory.getMicrophone();
+        System.out.println("LINE STATUS 2");
+        System.out.println(microphoneLine2.isRunning());
+        */
+
         recognizer.startRecognition(true);
+
     
         // this needs to become it's own thread
         while (this.transcriberEnabled) {
@@ -54,7 +75,6 @@ public class Transcriber {
             if (utterance.equals("robot")) {
                 this.transcriberListener.onSuccessfulTrigger();
             }
-            
         }
     }
 
@@ -62,5 +82,17 @@ public class Transcriber {
         System.out.println("STOPPING RECOGNITION IN FUNCTION");
         this.transcriberEnabled = false;
         recognizer.stopRecognition();
+        //closeRecognitionLine();
+    }
+
+    // this is a hack workaround Sphinx4 not letting go of input lines
+    // it has been addressed by the authors and fix is assumed to be coming
+    // until then we force close out the mic inputs
+    private void closeRecognitionLine() {
+        System.out.println("CLOSING LINE");
+        MicrophoneLineFactory microphoneLineFactory = new MicrophoneLineFactory();
+        TargetDataLine microphoneLine = microphoneLineFactory.getMicrophone();
+        microphoneLine.stop();
+        microphoneLine.close();
     }
 }

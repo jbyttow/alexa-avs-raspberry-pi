@@ -351,6 +351,7 @@ public class AVSController
     }
 
     public void stopRecording() {
+        System.out.println("STOP RECORDING");
         speechRequestAudioPlayerPauseController.finishedListening();
         microphone.stopCapture();
     }

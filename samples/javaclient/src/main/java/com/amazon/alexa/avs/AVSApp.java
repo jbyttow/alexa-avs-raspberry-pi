@@ -328,6 +328,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         actionButton.setEnabled(true);
         visualizer.setIndeterminate(true);
         controller.processingFinished();
+        controller.stopRecording();
 
         try {
             transcriber.startRecognition();
@@ -364,8 +365,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                 autoEndpoint.start();
             }
         }
-
-        System.out.println(rms);
         visualizer.setValue(rms); // update the visualizer
     }
 
