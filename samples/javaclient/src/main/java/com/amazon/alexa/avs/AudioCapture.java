@@ -59,6 +59,7 @@ public class AudioCapture {
             thread.start();
             return inputStream;
         } catch (LineUnavailableException | IOException e) {
+            System.out.println("LINE UNAVAILABLE EXCEPTION");
             stopCapture();
             throw e;
         }

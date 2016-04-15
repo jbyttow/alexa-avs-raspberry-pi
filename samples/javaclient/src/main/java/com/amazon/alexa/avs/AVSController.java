@@ -83,6 +83,7 @@ public class AVSController
 
         this.microphone = AudioCapture.getAudioHardware(AUDIO_TYPE.getAudioFormat(),
                 new MicrophoneLineFactory());
+        System.out.println("GOT MICROPHONE");
         this.player = audioFactory.getAudioPlayer(this);
         this.player.registerAlexaSpeechListener(this);
         this.dialogRequestIdAuthority = dialogRequestIdAuthority;

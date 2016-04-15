@@ -18,7 +18,7 @@ public class MicrophoneLineFactory {
     public TargetDataLine getMicrophone() {
         Mixer.Info[] mixers = AudioSystem.getMixerInfo();
         System.out.println("MIXER COUNT");
-        System.out.println(mixers);
+        System.out.println(mixers.length);
         for (Mixer.Info mixerInfo : mixers) {
             Mixer m = AudioSystem.getMixer(mixerInfo);
             try {

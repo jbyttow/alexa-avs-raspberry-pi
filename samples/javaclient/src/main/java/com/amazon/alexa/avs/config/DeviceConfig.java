@@ -112,7 +112,7 @@ public class DeviceConfig {
         }
 
         //JB dirty hack, paramterize these settings
-        if (!AVSApp.DEBUG_MODE) {
+        if (!AVSApp.DEV_MODE) {
             if (method == ProvisioningMethod.COMPANION_APP
                     && (companionAppInfo == null || !companionAppInfo.isValid())) {
                 throw new MalformedConfigException("Your " + PROVISIONING_METHOD + " is set to \""

@@ -49,11 +49,11 @@ public class Transcriber {
         System.out.println("start recognition");
         this.transcriberEnabled = true;
 
-        MicrophoneLineFactory microphoneLineFactory = new MicrophoneLineFactory();
-        
+        //MicrophoneLineFactory microphoneLineFactory = new MicrophoneLineFactory();
+        //TargetDataLine microphoneLine = microphoneLineFactory.getMicrophone();
+        //microphoneLine.open();
         /*
-        TargetDataLine microphoneLine = microphoneLineFactory.getMicrophone();
-        microphoneLine.open(AVSController.AUDIO_TYPE.getAudioFormat());
+        
         System.out.println("LINE STATUS");
         System.out.println(microphoneLine.isRunning());
         
@@ -82,7 +82,7 @@ public class Transcriber {
         System.out.println("STOPPING RECOGNITION IN FUNCTION");
         this.transcriberEnabled = false;
         recognizer.stopRecognition();
-        //closeRecognitionLine();
+        closeRecognitionLine();
     }
 
     // this is a hack workaround Sphinx4 not letting go of input lines

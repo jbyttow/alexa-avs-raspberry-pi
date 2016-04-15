@@ -51,7 +51,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     private static final Logger log = LoggerFactory.getLogger(AVSApp.class);
 
     //JB dirty hack, paramterize these settings
-    public static boolean DEBUG_MODE = false;
+    public static boolean DEV_MODE = false;
 
     private static final String APP_TITLE = "Alexa Voice Service";
     private static final String START_LABEL = "Start Listening";
@@ -98,7 +98,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                 getAVSClientFactory(deviceConfig), DialogRequestIdAuthority.getInstance());
 
         //JB dirty hack, paramterize these settings
-        if (!DEBUG_MODE) {
+        if (!DEV_MODE) {
             authSetup = new AuthSetup(config, this);
             authSetup.addAccessTokenListener(this);
             authSetup.addAccessTokenListener(controller);
