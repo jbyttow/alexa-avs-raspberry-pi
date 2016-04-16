@@ -46,7 +46,8 @@ public class Transcriber {
     }
 
     public void startRecognition() throws Exception {
-        System.out.println("start recognition");
+        System.out.println("transcriber: start recognition");
+        System.out.println(recognizer);
         this.transcriberEnabled = true;
 
         //MicrophoneLineFactory microphoneLineFactory = new MicrophoneLineFactory();

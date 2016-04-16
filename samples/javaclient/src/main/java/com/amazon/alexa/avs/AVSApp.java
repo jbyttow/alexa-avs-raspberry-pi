@@ -51,7 +51,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     private static final Logger log = LoggerFactory.getLogger(AVSApp.class);
 
     //JB dirty hack, paramterize these settings
-    public static boolean DEV_MODE = true;
+    public static boolean DEV_MODE = false;
 
     private static final String APP_TITLE = "Alexa Voice Service";
     private static final String START_LABEL = "Start Listening";
