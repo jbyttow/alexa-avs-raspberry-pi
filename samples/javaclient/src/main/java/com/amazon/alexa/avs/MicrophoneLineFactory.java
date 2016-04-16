@@ -34,6 +34,7 @@ public class MicrophoneLineFactory {
             System.out.println("LINE COUNT");
             System.out.println(lines.length);
             for (Line.Info li : lines) {
+                System.out.println(li.toString());
                 try {
                     TargetDataLine temp = (TargetDataLine) AudioSystem.getLine(li);
                     if (temp != null) {
