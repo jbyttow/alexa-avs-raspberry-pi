@@ -41,6 +41,7 @@ public class MicrophoneLineFactory {
                     }
                 } catch (Exception e) {
                     System.out.println("LINE EXCEPTION");
+                    System.out.println(e);
                 }
             }
         }
