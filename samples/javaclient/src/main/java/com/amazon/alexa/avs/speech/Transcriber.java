@@ -73,7 +73,7 @@ public class Transcriber {
         while (this.transcriberEnabled) {
             String utterance = recognizer.getResult().getHypothesis();
             System.out.println(utterance);
-            if (utterance.equals("robot")) {
+            if (utterance.equals("robot") || utterance.equals("meow")) {
                 this.transcriberListener.onSuccessfulTrigger();
             }
         }
