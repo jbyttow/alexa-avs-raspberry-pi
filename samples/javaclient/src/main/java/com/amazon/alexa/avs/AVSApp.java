@@ -128,7 +128,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     public void onSuccessfulTrigger() {
         System.out.println("stopping recognition");
         this.transcriber.stopRecognition();
-        //visualizer.setIndeterminate(false);
 
         RequestListener requestListener = new RequestListener() {
             @Override
@@ -148,7 +147,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
             }
         };
 
-        System.out.println("w00t");
         final RecordingRMSListener rmsListener = this;
         this.controller.startRecording(rmsListener, requestListener);
     }
@@ -327,19 +325,30 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         System.out.println("finished processing");
         actionButton.setText(START_LABEL);
         actionButton.setEnabled(true);
-        visualizer.setIndeterminate(true);
+        //visualizer.setIndeterminate(true);
         controller.processingFinished();
         controller.stopRecording();
 
-        try {
-            transcriber.startRecognition();
-            transcriber.run();
-        } catch (Exception e) {
-            System.out.println("EXCEPTION");
-            System.out.println(e);
-            return;
-        }
-            
+
+        boolean noStartError = false;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                while (!controller.isSpeaking() && !noStartError) {
+                    try {
+                        transcriber.startRecognition();
+                        Thread.sleep(500);
+                    } catch (Exception e) {
+                        System.out.println("EXCEPTION MIC CONTENTION");
+                        System.out.println(e);
+                    }
+                    noStartError = true;
+                }
+                System.out.println("DONE");
+                transcriber.run();
+            }
+        };
+        thread.start();
     }
 
     @Override
@@ -388,7 +397,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
             }
         };
         thread.start();
-
     }
 
     public void showDialog(String message) {

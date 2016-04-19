@@ -76,6 +76,7 @@ public class Transcriber extends Thread {
                 Thread.sleep(1);
             }
         } catch (InterruptedException ex) {
+            System.out.println(ex)
             // handle exception
         }
     }
@@ -83,15 +84,5 @@ public class Transcriber extends Thread {
     public void stopRecognition() {
         this.transcriberEnabled = false;
         recognizer.stopRecognition();
-        closeRecognitionLine();
-    }
-
-    // this is a hack workaround Sphinx not letting go of input lines
-    // until then we force close out the mic inputs
-    // TODO: now that we're including Sphinx, add method internally to control line
-    private void closeRecognitionLine() {
-        TargetDataLine microphoneLine = microphoneLineFactory.getMicrophone();
-        microphoneLine.stop();
-        microphoneLine.close();
     }
 }
