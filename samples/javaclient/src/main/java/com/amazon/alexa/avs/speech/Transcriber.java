@@ -76,7 +76,7 @@ public class Transcriber extends Thread {
                 Thread.sleep(1);
             }
         } catch (InterruptedException ex) {
-            System.out.println(ex)
+            System.out.println(ex);
             // handle exception
         }
     }
