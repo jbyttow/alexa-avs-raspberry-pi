@@ -329,11 +329,10 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         controller.processingFinished();
         controller.stopRecording();
 
-
-        boolean noStartError = false;
         Thread thread = new Thread() {
             @Override
             public void run() {
+                boolean noStartError = false;
                 while (!controller.isSpeaking() && !noStartError) {
                     try {
                         transcriber.startRecognition();
