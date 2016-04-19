@@ -335,13 +335,19 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                 boolean noStartError = false;
                 while (!controller.isSpeaking() && !noStartError) {
                     try {
-                        transcriber.startRecognition();
-                        Thread.sleep(500);
-                    } catch (Exception e) {
-                        System.out.println("EXCEPTION MIC CONTENTION");
-                        System.out.println(e);
-                    }
-                    noStartError = true;
+                        Thread.sleep(500);    
+                    } catch (Exception e) {}
+
+                    if (!noStartError) {
+                        try {
+                            transcriber.startRecognition();
+                            noStartError = true;
+                        } catch (Exception e) {
+                            System.out.println("EXCEPTION MIC CONTENTION");
+                            System.out.println(e);
+                            noStartError = false;
+                        }
+                    }   
                 }
                 System.out.println("DONE");
                 transcriber.run();

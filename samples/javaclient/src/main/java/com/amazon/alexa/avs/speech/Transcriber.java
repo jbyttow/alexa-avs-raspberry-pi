@@ -55,7 +55,7 @@ public class Transcriber extends Thread {
     }
 
     public void startRecognition() {
-        System.out.println("start recognition");
+        System.out.println("starting recognition");
         this.transcriberEnabled = true;
         recognizer.startRecognition(true);
     }
