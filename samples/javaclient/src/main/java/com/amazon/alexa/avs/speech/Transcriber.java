@@ -24,7 +24,6 @@ public class Transcriber extends Thread {
     private TranscriberListener transcriberListener;
     private boolean transcriberEnabled = false;
     private List<String> triggerWords;
-    private MicrophoneLineFactory microphoneLineFactory;
 
     private static final String ACOUSTIC_MODEL = "res/en-us/";
     private static final String DICTIONARY_PATH = "res/cmudict-en-us.dict";
@@ -48,36 +47,27 @@ public class Transcriber extends Thread {
         configuration.setUseGrammar(true);
         configuration.setGrammarName(GRAMMAR_NAME);
 
-        this.microphoneLineFactory = new MicrophoneLineFactory();
         recognizer = new LiveSpeechRecognizer(configuration);
 
-        this.triggerWords = Arrays.asList("robot", "meow");
+        this.triggerWords = Arrays.asList("robot");
     }
 
     public void startRecognition() {
-        System.out.println("starting recognition");
+        System.out.println("STARTING RECOGNITION");
         this.transcriberEnabled = true;
         recognizer.startRecognition(true);
-    }
 
-    @Override
-    public void run() {
-        super.run();
-        try {
-            while (this.transcriberEnabled) {
-                String utterance = recognizer.getResult().getHypothesis();
-                System.out.println(utterance);
-                for (String triggerWord : triggerWords) {
-                    if (utterance.equals(triggerWord)) {
-                        System.out.println(triggerWord);
-                        this.transcriberListener.onSuccessfulTrigger();
-                    }
+        while (this.transcriberEnabled) {
+            String utterance = recognizer.getResult().getHypothesis();
+            System.out.println("utterance");
+            System.out.println(utterance);
+            for (String triggerWord : triggerWords) {
+                if (utterance.equals(triggerWord)) {
+                    System.out.println("word matched");
+                    System.out.println(triggerWord);
+                    this.transcriberListener.onSuccessfulTrigger();
                 }
-                Thread.sleep(1);
             }
-        } catch (InterruptedException ex) {
-            System.out.println(ex);
-            // handle exception
         }
     }
 

@@ -13,8 +13,9 @@
 package edu.cmu.sphinx.api;
 
 import java.io.InputStream;
-
 import javax.sound.sampled.*;
+
+import com.amazon.alexa.avs.MicrophoneLineFactory;
 
 /**
  * InputStream adapter
@@ -24,6 +25,7 @@ public class Microphone {
     private TargetDataLine line;
     private InputStream inputStream;
     private AudioFormat audioFormat;
+    private MicrophoneLineFactory microphoneLineFactory;
 
     public Microphone(
             float sampleRate,
@@ -36,12 +38,14 @@ public class Microphone {
                             1,
                             signed,
                             bigEndian);
+        microphoneLineFactory = new MicrophoneLineFactory();
     }
 
     public void openInputStream() {
         System.out.println("in output stream");
         try {
             line = AudioSystem.getTargetDataLine(audioFormat);
+            //line = microphoneLineFactory.getMicrophone();
             line.open();
         } catch (LineUnavailableException e) {
             System.out.println("THROWING LINE NOT AVAIL INPUT STREAM");

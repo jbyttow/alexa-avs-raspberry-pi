@@ -342,6 +342,7 @@ public class Result {
                 featureList.add(0, feature);
 
             token = token.getPredecessor();
+            System.out.println("loooop");
         } while (token != null);
 
         return featureList;

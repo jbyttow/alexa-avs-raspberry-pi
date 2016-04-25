@@ -122,7 +122,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         final TranscriberListener transcriberListener = this;
         this.transcriber = new Transcriber(transcriberListener);
         this.transcriber.startRecognition();
-        this.transcriber.run();
     }
 
     public void onSuccessfulTrigger() {
@@ -325,35 +324,18 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         System.out.println("finished processing");
         actionButton.setText(START_LABEL);
         actionButton.setEnabled(true);
-        //visualizer.setIndeterminate(true);
         controller.processingFinished();
         controller.stopRecording();
 
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-                boolean noStartError = false;
-                while (!controller.isSpeaking() && !noStartError) {
-                    try {
-                        Thread.sleep(500);    
-                    } catch (Exception e) {}
+        System.out.println(controller.isSpeaking());
+        System.out.println(controller.isPlaying());
 
-                    if (!noStartError) {
-                        try {
-                            transcriber.startRecognition();
-                            noStartError = true;
-                        } catch (Exception e) {
-                            System.out.println("EXCEPTION MIC CONTENTION");
-                            System.out.println(e);
-                            noStartError = false;
-                        }
-                    }   
-                }
-                System.out.println("DONE");
-                transcriber.run();
-            }
-        };
-        thread.start();
+        while (controller.isSpeaking() || controller.isPlaying()) {
+            System.out.println("waiting while speaking or playing");
+        }
+
+        System.out.println("starting transcriber thread");
+        transcriber.startRecognition();
     }
 
     @Override
