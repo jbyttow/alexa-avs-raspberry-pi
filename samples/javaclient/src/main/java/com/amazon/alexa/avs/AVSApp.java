@@ -125,6 +125,11 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     }
 
     public void onSuccessfulTrigger() {
+        if (controller.isSpeaking() || controller.isPlaying()) {
+            System.out.println("WE WERE STILL TALKING OR PLAYING");
+            return;
+        }
+
         System.out.println("stopping recognition");
         this.transcriber.stopRecognition();
 
@@ -332,8 +337,16 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
 
         while (controller.isSpeaking() || controller.isPlaying()) {}
 
-        System.out.println("starting transcriber thread");
-        transcriber.startRecognition();
+        new java.util.Timer().schedule(
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("starting transcriber thread");
+                    transcriber.startRecognition();
+                }
+            }, 
+            1000
+        );
     }
 
     @Override
