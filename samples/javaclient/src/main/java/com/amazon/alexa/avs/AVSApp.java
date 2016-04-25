@@ -330,9 +330,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         System.out.println(controller.isSpeaking());
         System.out.println(controller.isPlaying());
 
-        while (controller.isSpeaking() || controller.isPlaying()) {
-            System.out.println("waiting while speaking or playing");
-        }
+        while (controller.isSpeaking() || controller.isPlaying()) {}
 
         System.out.println("starting transcriber thread");
         transcriber.startRecognition();
