@@ -119,6 +119,8 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
 
         controller.startHandlingDirectives();
 
+        System.out.println("INITTTTTTTTTTTT");
+
         final TranscriberListener transcriberListener = this;
         this.transcriber = new Transcriber(transcriberListener);
         this.transcriber.startRecognition();
@@ -345,7 +347,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                     transcriber.startRecognition();
                 }
             }, 
-            1000
+            6000
         );
     }
 
