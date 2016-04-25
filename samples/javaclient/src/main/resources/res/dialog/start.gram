@@ -1,24 +1,7 @@
 #JSGF V1.0;
 
-grammar dialog;
+grammar start;
 
-<digit> = oh    |
-          zero  |
-          one   |
-          two   |
-          three |
-          four  |
-          five  |
-          six   |
-          seven |
-          eight |
-          nine  ;
-
-<number> = <digit>+ [point <digit>+];
-
-
-<initiation_command> = minion       |
-                 churchill          |
-                 robot              ;
+<initiation_command> = robot;
 
 public <command> = <initiation_command>;
