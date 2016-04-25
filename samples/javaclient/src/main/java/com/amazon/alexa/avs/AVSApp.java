@@ -343,6 +343,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
             new java.util.TimerTask() {
                 @Override
                 public void run() {
+                    while (controller.isSpeaking() || controller.isPlaying()) {}
                     System.out.println("starting transcriber thread");
                     transcriber.startRecognition();
                 }
