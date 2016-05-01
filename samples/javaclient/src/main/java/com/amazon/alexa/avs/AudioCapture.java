@@ -53,6 +53,7 @@ public class AudioCapture {
     public InputStream getAudioInputStream(final RecordingStateListener stateListener,
             final RecordingRMSListener rmsListener) throws LineUnavailableException, IOException {
         try {
+            stopCapture();
             startCapture();
             PipedInputStream inputStream = new PipedInputStream(BUFFER_SIZE_IN_BYTES);
             thread = new AudioBufferThread(inputStream, stateListener, rmsListener);
@@ -68,7 +69,6 @@ public class AudioCapture {
     public void stopCapture() {
         microphoneLine.stop();
         microphoneLine.close();
-
     }
 
     private void startCapture() throws LineUnavailableException {
