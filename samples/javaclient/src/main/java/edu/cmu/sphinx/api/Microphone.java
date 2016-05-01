@@ -45,8 +45,9 @@ public class Microphone {
         System.out.println("in output stream");
         try {
             line = AudioSystem.getTargetDataLine(audioFormat);
-            //line = microphoneLineFactory.getMicrophone();
-            line.open();
+            System.out.println(line);
+            // attempt to close the line before we open, this is due to resource contention
+            stopRecording();
         } catch (LineUnavailableException e) {
             System.out.println("THROWING LINE NOT AVAIL INPUT STREAM");
             line.stop();
