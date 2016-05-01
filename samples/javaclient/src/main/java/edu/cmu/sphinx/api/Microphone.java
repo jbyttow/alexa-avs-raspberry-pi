@@ -48,6 +48,7 @@ public class Microphone {
             System.out.println(line);
             // attempt to close the line before we open, this is due to resource contention
             stopRecording();
+            line.open();
         } catch (LineUnavailableException e) {
             System.out.println("THROWING LINE NOT AVAIL INPUT STREAM");
             line.stop();
