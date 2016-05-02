@@ -7,6 +7,8 @@ This fork adds voice recognition triggering to the java client instead of manual
 2. Device meshing
 3. ?
 
+@jbyttow
+
 ## About the Project
 This project demonstrates how to access and test the Alexa Voice Service using a Java client (running on a Raspberry Pi), and a Node.js server. You will be using the Node.js server to get a Login with Amazon authorization code by visiting a website using your computer's (Raspberry Pi in this case) web browser. 
 
