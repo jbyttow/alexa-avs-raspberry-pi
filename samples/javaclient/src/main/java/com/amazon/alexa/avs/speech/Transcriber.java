@@ -75,4 +75,8 @@ public class Transcriber extends Thread {
         this.transcriberEnabled = false;
         recognizer.stopRecognition();
     }
+
+    public boolean isListening() {
+        return this.transcriberEnabled;
+    }
 }

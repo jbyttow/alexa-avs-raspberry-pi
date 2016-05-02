@@ -327,13 +327,15 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         getContentPane().add(container);
     }
 
+    public void stopRecording() {
+        System.out.println("stop recording");
+        controller.stopRecording();
+    } 
+
     public void finishProcessing() {
         System.out.println("finished processing");
-        actionButton.setText(START_LABEL);
-        actionButton.setEnabled(true);
+        
         controller.processingFinished();
-        controller.stopRecording();
-
         System.out.println(controller.isSpeaking());
         System.out.println(controller.isPlaying());
 
@@ -369,6 +371,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                         try {
                             Thread.sleep(ENDPOINT_SECONDS * 1000);
                             System.out.println("THRESHOLD OVER");
+                            stopRecording();
                         } catch (InterruptedException e) {
                             return;
                         }
