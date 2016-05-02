@@ -2,6 +2,6 @@
 
 grammar start;
 
-<initiation_command> = robot;
+<initiation_command> = skywalker;
 
 public <command> = <initiation_command>;
