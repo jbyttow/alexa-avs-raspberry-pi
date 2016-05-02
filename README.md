@@ -1,9 +1,10 @@
-# Project: Raspberry Pi + Alexa Voice Service + Voice Trigger Recognition
+# Project: Raspberry Pi + Alexa Voice Service
 
-## Modifications to the Project
+## Modifications in this fork
 This fork adds voice recognition triggering to the java client.
 
 Further planned work:
+
 1. Automatic provisioning and startup
 2. Device meshing
 3. ?
