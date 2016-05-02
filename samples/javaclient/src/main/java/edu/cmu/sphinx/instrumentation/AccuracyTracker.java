@@ -35,24 +35,24 @@ abstract public class AccuracyTracker
     public final static String PROP_RECOGNIZER = "recognizer";
 
     /** The property that defines whether summary accuracy information is displayed */
-    @S4Boolean(defaultValue = true)
+    @S4Boolean(defaultValue = false)
     public final static String PROP_SHOW_SUMMARY = "showSummary";
 
     /** The property that defines whether detailed accuracy information is displayed */
-    @S4Boolean(defaultValue = true)
+    @S4Boolean(defaultValue = false)
     public final static String PROP_SHOW_DETAILS = "showDetails";
 
     /** The property that defines whether recognition results should be displayed. */
-    @S4Boolean(defaultValue = true)
+    @S4Boolean(defaultValue = false)
     public final static String PROP_SHOW_RESULTS = "showResults";
 
 
     /** The property that defines whether recognition results should be displayed. */
-    @S4Boolean(defaultValue = true)
+    @S4Boolean(defaultValue = false)
     public final static String PROP_SHOW_ALIGNED_RESULTS = "showAlignedResults";
 
     /** The property that defines whether recognition results should be displayed. */
-    @S4Boolean(defaultValue = true)
+    @S4Boolean(defaultValue = false)
     public final static String PROP_SHOW_RAW_RESULTS = "showRawResults";
 
     // ------------------------------
