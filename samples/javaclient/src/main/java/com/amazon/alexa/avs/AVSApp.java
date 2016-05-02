@@ -369,7 +369,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                         try {
                             Thread.sleep(ENDPOINT_SECONDS * 1000);
                             System.out.println("THRESHOLD OVER");
-                            finishProcessing();
                         } catch (InterruptedException e) {
                             return;
                         }
