@@ -64,9 +64,11 @@ public class Microphone {
     }
 
     public void stopRecording() {
+        if (line == null) {
+            return;
+        }
         line.stop();
         line.close();
-        line = null;
     }
 
     public InputStream getStream() {

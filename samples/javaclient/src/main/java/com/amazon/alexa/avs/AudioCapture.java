@@ -67,7 +67,6 @@ public class AudioCapture {
     public void stopCapture() {
         microphoneLine.stop();
         microphoneLine.close();
-        microphoneLine = null;
     }
 
     private void startCapture() throws LineUnavailableException {
