@@ -81,8 +81,7 @@ public class AVSController
             AlertManagerFactory alarmFactory, AVSClientFactory avsClientFactory,
             DialogRequestIdAuthority dialogRequestIdAuthority) throws Exception {
 
-        this.microphone = AudioCapture.getAudioHardware(AUDIO_TYPE.getAudioFormat(),
-                new MicrophoneLineFactory());
+        this.microphone = AudioCapture.getAudioHardware(AUDIO_TYPE.getAudioFormat());
         System.out.println("GOT MICROPHONE");
         this.player = audioFactory.getAudioPlayer(this);
         this.player.registerAlexaSpeechListener(this);
@@ -166,7 +165,8 @@ public class AVSController
 
             dependentQueue.clear();
 
-            InputStream inputStream = microphone.getAudioInputStream(this, rmsListener);
+            InputStream inputStream = microphone.getAudioInputStream(this, rmsListener,
+                    new MicrophoneLineFactory());
 
             avsClient.sendEvent(body, inputStream, requestListener, AUDIO_TYPE);
 

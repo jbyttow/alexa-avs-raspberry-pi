@@ -51,8 +51,6 @@ public class Microphone {
             line.open();
         } catch (LineUnavailableException e) {
             System.out.println("THROWING LINE NOT AVAIL INPUT STREAM");
-            line.stop();
-            line.close();
             throw new IllegalStateException(e);
         }
         inputStream = new AudioInputStream(line);
@@ -68,6 +66,7 @@ public class Microphone {
     public void stopRecording() {
         line.stop();
         line.close();
+        line = null;
     }
 
     public InputStream getStream() {

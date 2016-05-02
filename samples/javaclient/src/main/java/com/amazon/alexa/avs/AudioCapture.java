@@ -21,7 +21,7 @@ import javax.sound.sampled.TargetDataLine;
 
 public class AudioCapture {
     private static AudioCapture sAudioCapture;
-    private final TargetDataLine microphoneLine;
+    private TargetDataLine microphoneLine;
     private AudioFormat audioFormat;
     private AudioBufferThread thread;
 
@@ -31,19 +31,16 @@ public class AudioCapture {
 
     private static final Logger log = LoggerFactory.getLogger(AudioCapture.class);
 
-    public static AudioCapture getAudioHardware(final AudioFormat audioFormat,
-            MicrophoneLineFactory microphoneLineFactory) {
+    public static AudioCapture getAudioHardware(final AudioFormat audioFormat) {
         if (sAudioCapture == null) {
-            sAudioCapture = new AudioCapture(audioFormat, microphoneLineFactory);
+            sAudioCapture = new AudioCapture(audioFormat);
         }
         return sAudioCapture;
     }
 
-    private AudioCapture(final AudioFormat audioFormat,
-            MicrophoneLineFactory microphoneLineFactory) {
+    private AudioCapture(final AudioFormat audioFormat) {
         super();
         this.audioFormat = audioFormat;
-        microphoneLine = microphoneLineFactory.getMicrophone();
 
         BUFFER_SIZE_IN_BYTES =
                 (int) ((audioFormat.getSampleSizeInBits() * audioFormat.getSampleRate()) / 8
@@ -51,7 +48,8 @@ public class AudioCapture {
     }
 
     public InputStream getAudioInputStream(final RecordingStateListener stateListener,
-            final RecordingRMSListener rmsListener) throws LineUnavailableException, IOException {
+            final RecordingRMSListener rmsListener, MicrophoneLineFactory microphoneLineFactory) throws LineUnavailableException, IOException {
+        microphoneLine = microphoneLineFactory.getMicrophone();
         try {
             stopCapture();
             startCapture();
@@ -69,6 +67,7 @@ public class AudioCapture {
     public void stopCapture() {
         microphoneLine.stop();
         microphoneLine.close();
+        microphoneLine = null;
     }
 
     private void startCapture() throws LineUnavailableException {
