@@ -51,7 +51,6 @@ public class AudioCapture {
             final RecordingRMSListener rmsListener, MicrophoneLineFactory microphoneLineFactory) throws LineUnavailableException, IOException {
         microphoneLine = microphoneLineFactory.getMicrophone();
         try {
-            stopCapture();
             startCapture();
             PipedInputStream inputStream = new PipedInputStream(BUFFER_SIZE_IN_BYTES);
             thread = new AudioBufferThread(inputStream, stateListener, rmsListener);

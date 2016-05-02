@@ -43,7 +43,6 @@ public class Microphone {
 
     public void openInputStream() {
         try {
-            stopRecording();
             line = AudioSystem.getTargetDataLine(audioFormat);
             // attempt to close the line before we open, this is due to resource contention            
             line.open();
