@@ -70,7 +70,7 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
     private Thread autoEndpoint = null; // used to auto-endpoint while listening
     private final DeviceConfig deviceConfig;
     // minimum audio level threshold under which is considered silence
-    private static final int ENDPOINT_THRESHOLD = 5;
+    private static final int ENDPOINT_THRESHOLD = 3;
     private static final int ENDPOINT_SECONDS = 2; // amount of silence time before endpointing
     private String accessToken;
 
@@ -119,8 +119,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
 
         controller.startHandlingDirectives();
 
-        System.out.println("INITTTTTTTTTTTT");
-
         final TranscriberListener transcriberListener = this;
         this.transcriber = new Transcriber(transcriberListener);
         this.transcriber.startRecognition();
@@ -128,17 +126,14 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
 
     public void onSuccessfulTrigger() {
         if (controller.isSpeaking() || controller.isPlaying()) {
-            System.out.println("WE WERE STILL TALKING OR PLAYING");
             return;
         }
 
-        System.out.println("stopping recognition");
         this.transcriber.stopRecognition();
 
         RequestListener requestListener = new RequestListener() {
             @Override
             public void onRequestSuccess() {
-                System.out.println("request success");
                 finishProcessing();
             }
 
@@ -147,8 +142,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                 log.error("An error occured creating speech request", e);
                 JOptionPane.showMessageDialog(getContentPane(), e.getMessage(), "Error",
                         JOptionPane.ERROR_MESSAGE);
-                System.out.println("request error");
-                //actionButton.doClick();
                 finishProcessing();
             }
         };
@@ -327,17 +320,12 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
         getContentPane().add(container);
     }
 
-    public void stopRecording() {
-        System.out.println("stop recording");
+    private void stopRecording() {
         controller.stopRecording();
     } 
 
     public void finishProcessing() {
-        System.out.println("finished processing");
-        
         controller.processingFinished();
-        System.out.println(controller.isSpeaking());
-        System.out.println(controller.isPlaying());
 
         while (controller.isSpeaking() || controller.isPlaying()) {}
 
@@ -346,7 +334,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                 @Override
                 public void run() {
                     while (controller.isSpeaking() || controller.isPlaying()) {}
-                    System.out.println("starting transcriber thread");
                     transcriber.startRecognition();
                 }
             }, 
@@ -370,7 +357,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                     public void run() {
                         try {
                             Thread.sleep(ENDPOINT_SECONDS * 1000);
-                            System.out.println("THRESHOLD OVER");
                             stopRecording();
                         } catch (InterruptedException e) {
                             return;
@@ -395,7 +381,6 @@ public class AVSApp extends JFrame implements ExpectSpeechListener, RecordingRMS
                     } catch (Exception e) {
                     }
                 }
-                System.out.println("DO CLICK SPEECH DIRECTIVE");
                 actionButton.doClick();
             }
         };

@@ -53,14 +53,11 @@ public class Transcriber extends Thread {
     }
 
     public void startRecognition() {
-        System.out.println("STARTING RECOGNITION");
         this.transcriberEnabled = true;
         recognizer.startRecognition(true);
 
         while (this.transcriberEnabled) {
             String utterance = recognizer.getResult().getHypothesis();
-            System.out.println("utterance");
-            System.out.println(utterance);
             for (String triggerWord : triggerWords) {
                 if (utterance.equals(triggerWord)) {
                     System.out.println("word matched");

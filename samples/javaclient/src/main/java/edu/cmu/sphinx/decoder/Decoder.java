@@ -59,7 +59,6 @@ public class Decoder extends AbstractDecoder {
      */
     @Override
     public Result decode(String referenceText) {
-        System.out.println(referenceText);
         searchManager.startRecognition();
         Result result;
         do {

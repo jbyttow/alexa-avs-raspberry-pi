@@ -17,32 +17,23 @@ public class MicrophoneLineFactory {
     // get the system default microphone
     public TargetDataLine getMicrophone() {
         Mixer.Info[] mixers = AudioSystem.getMixerInfo();
-        System.out.println("MIXER COUNT");
-        System.out.println(mixers.length);
         for (Mixer.Info mixerInfo : mixers) {
             Mixer m = AudioSystem.getMixer(mixerInfo);
             try {
                 m.open();
                 m.close();
             } catch (Exception e) {
-                System.out.println("MIXER THROUGH EXCEPTION");
-                System.out.println(e);
                 continue;
             }
 
             Line.Info[] lines = m.getTargetLineInfo();
-            System.out.println("LINE COUNT");
-            System.out.println(lines.length);
             for (Line.Info li : lines) {
-                System.out.println(li.toString());
                 try {
                     TargetDataLine temp = (TargetDataLine) AudioSystem.getLine(li);
                     if (temp != null) {
                         return temp;
                     }
                 } catch (Exception e) {
-                    System.out.println("LINE EXCEPTION");
-                    System.out.println(e);
                 }
             }
         }

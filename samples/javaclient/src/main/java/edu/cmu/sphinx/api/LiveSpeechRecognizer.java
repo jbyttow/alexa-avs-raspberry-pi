@@ -41,9 +41,7 @@ public class LiveSpeechRecognizer extends AbstractSpeechRecognizer {
      * @see         LiveSpeechRecognizer#stopRecognition()
      */
     public void startRecognition(boolean clear) {
-        System.out.println("INTERNAL START RECOGNITION");
         microphone.openInputStream();
-        System.out.println(microphone.getStream());
 
         context.getInstance(StreamDataSource.class)
             .setInputStream(microphone.getStream());

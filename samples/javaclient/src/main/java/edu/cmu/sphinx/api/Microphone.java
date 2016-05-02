@@ -42,24 +42,18 @@ public class Microphone {
     }
 
     public void openInputStream() {
-        System.out.println("in output stream");
         try {
             stopRecording();
             line = AudioSystem.getTargetDataLine(audioFormat);
-            System.out.println(line);
             // attempt to close the line before we open, this is due to resource contention            
             line.open();
         } catch (LineUnavailableException e) {
-            System.out.println("THROWING LINE NOT AVAIL INPUT STREAM");
             throw new IllegalStateException(e);
         }
         inputStream = new AudioInputStream(line);
-        System.out.println("AUDIO STREAM OPEN");
     }
 
     public void startRecording() {
-        System.out.println("START RECORDING MICROPHONE");
-        System.out.println(line);
         line.start();
     }
 

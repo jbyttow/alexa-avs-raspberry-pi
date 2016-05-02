@@ -318,10 +318,8 @@ public class Token implements Scoreable {
             token = list.get(i);
             if (includeHMMStates ||
                     (!(token.getSearchState() instanceof HMMSearchState))) {
-                System.out.println("  " + token);
             }
         }
-        System.out.println();
     }
 
 

@@ -82,7 +82,6 @@ public class AVSController
             DialogRequestIdAuthority dialogRequestIdAuthority) throws Exception {
 
         this.microphone = AudioCapture.getAudioHardware(AUDIO_TYPE.getAudioFormat());
-        System.out.println("GOT MICROPHONE");
         this.player = audioFactory.getAudioPlayer(this);
         this.player.registerAlexaSpeechListener(this);
         this.dialogRequestIdAuthority = dialogRequestIdAuthority;
@@ -155,7 +154,6 @@ public class AVSController
     // start the recording process and send to server
     // takes an optional RMS callback and an optional request callback
     public void startRecording(RecordingRMSListener rmsListener, RequestListener requestListener) {
-        System.out.println("starting recording in AVS CONTROLLER");
         try {
             String dialogRequestId = dialogRequestIdAuthority.createNewDialogRequestId();
 
@@ -173,7 +171,6 @@ public class AVSController
             speechRequestAudioPlayerPauseController.startSpeechRequest();
 
         } catch (Exception e) {
-            System.out.println("WE HITTTTTTTTT AN EXCEPTION IN START RECORDING");
             player.playMp3FromResource(ERROR_SOUND);
             requestListener.onRequestError(e);
         }
@@ -354,7 +351,6 @@ public class AVSController
     }
 
     public void stopRecording() {
-        System.out.println("STOP RECORDING");
         speechRequestAudioPlayerPauseController.finishedListening();
         microphone.stopCapture();
     }
