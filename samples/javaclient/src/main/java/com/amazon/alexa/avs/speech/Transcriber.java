@@ -49,7 +49,7 @@ public class Transcriber extends Thread {
 
         recognizer = new LiveSpeechRecognizer(configuration);
 
-        this.triggerWords = Arrays.asList("robot");
+        this.triggerWords = Arrays.asList("skywalker");
     }
 
     public void startRecognition() {
@@ -60,8 +60,6 @@ public class Transcriber extends Thread {
             String utterance = recognizer.getResult().getHypothesis();
             for (String triggerWord : triggerWords) {
                 if (utterance.equals(triggerWord)) {
-                    System.out.println("word matched");
-                    System.out.println(triggerWord);
                     this.transcriberListener.onSuccessfulTrigger();
                 }
             }
