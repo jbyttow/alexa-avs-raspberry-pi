@@ -1,7 +1,7 @@
 # Project: Raspberry Pi + Alexa Voice Service
 
 ## Modifications in this fork
-This fork adds voice recognition triggering to the java client instead of manually clicking the action button. You may customize the trigger word or add many. The current trigger word is "skywalker". Future planned work:
+This fork adds voice recognition triggering to the java client instead of manually clicking the action button. You may customize the trigger word and/or add as many as you like. The current trigger word is "skywalker". Future planned work:
 
 1. Automatic provisioning and startup
 2. Device meshing
